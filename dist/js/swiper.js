@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: July 31, 2018
+ * Released on: September 5, 2018
  */
 
 (function (global, factory) {
@@ -1641,6 +1641,10 @@
     var activeIndex = swiper.activeIndex;
     var realIndex = swiper.realIndex;
     var isVirtual = swiper.virtual && params.virtual.enabled;
+
+    if (params.performance && params.performance.skipUpateSlidesClasses) {
+      return;
+    }
 
     slides.removeClass(((params.slideActiveClass) + " " + (params.slideNextClass) + " " + (params.slidePrevClass) + " " + (params.slideDuplicateActiveClass) + " " + (params.slideDuplicateNextClass) + " " + (params.slideDuplicatePrevClass)));
 
@@ -3350,6 +3354,7 @@
     }
     return {
       isIE: !!win.navigator.userAgent.match(/Trident/g) || !!win.navigator.userAgent.match(/MSIE/g),
+      isEdge: !!win.navigator.userAgent.match(/Edge/g),
       isSafari: isSafari(),
       isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
     };
@@ -3387,7 +3392,7 @@
       suffixes.push('ios');
     }
     // WP8 Touch Events Fix
-    if (Browser.isIE && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    if ((Browser.isIE || Browser.isEdge) && (Support.pointerEvents || Support.prefixedPointerEvents)) {
       suffixes.push(("wp8-" + (params.direction)));
     }
 
@@ -4388,8 +4393,6 @@
         };
         Utils.extend(swiper.params, overwriteParams);
         Utils.extend(swiper.originalParams, overwriteParams);
-
-        swiper.virtual.update();
       },
       setTranslate: function setTranslate() {
         var swiper = this;

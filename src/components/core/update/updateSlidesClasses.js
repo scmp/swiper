@@ -6,6 +6,10 @@ export default function () {
   } = swiper;
   const isVirtual = swiper.virtual && params.virtual.enabled;
 
+  if (params.performance && params.performance.skipUpateSlidesClasses) {
+    return;
+  }
+
   slides.removeClass(`${params.slideActiveClass} ${params.slideNextClass} ${params.slidePrevClass} ${params.slideDuplicateActiveClass} ${params.slideDuplicateNextClass} ${params.slideDuplicatePrevClass}`);
 
   let activeSlide;
