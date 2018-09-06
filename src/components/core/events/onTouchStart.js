@@ -51,7 +51,11 @@ export default function (event) {
   touches.startY = startY;
   data.touchStartTime = Utils.now();
   swiper.allowClick = true;
-  swiper.updateSize();
+
+  if (!params.performance || !params.performance.skipUpdateSizeOnTouchStart) {
+    swiper.updateSize();
+  }
+
   swiper.swipeDirection = undefined;
   if (params.threshold > 0) data.allowThresholdMove = false;
   if (e.type !== 'touchstart') {

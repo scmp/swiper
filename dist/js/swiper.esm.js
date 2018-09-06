@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 5, 2018
+ * Released on: September 6, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -1725,7 +1725,11 @@ function onTouchStart (event) {
   touches.startY = startY;
   data$$1.touchStartTime = Utils.now();
   swiper.allowClick = true;
-  swiper.updateSize();
+
+  if (!params.performance || !params.performance.skipUpdateSizeOnTouchStart) {
+    swiper.updateSize();
+  }
+
   swiper.swipeDirection = undefined;
   if (params.threshold > 0) data$$1.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
@@ -2946,8 +2950,15 @@ class Swiper extends SwiperClass {
     if (params.breakpoints) {
       swiper.setBreakpoint();
     }
-    swiper.updateSize();
-    swiper.updateSlides();
+
+    if (!params.performance || !params.performance.skipUpateSizeOnUpdate) {
+      swiper.updateSize();
+    }
+
+    if (!params.performance || !params.performance.skipUpateSlidesOnUpdate) {
+      swiper.updateSlides();
+    }
+
     swiper.updateProgress();
     swiper.updateSlidesClasses();
 

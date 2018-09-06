@@ -282,8 +282,15 @@ class Swiper extends SwiperClass {
     if (params.breakpoints) {
       swiper.setBreakpoint();
     }
-    swiper.updateSize();
-    swiper.updateSlides();
+
+    if (!params.performance || !params.performance.skipUpateSizeOnUpdate) {
+      swiper.updateSize();
+    }
+
+    if (!params.performance || !params.performance.skipUpateSlidesOnUpdate) {
+      swiper.updateSlides();
+    }
+
     swiper.updateProgress();
     swiper.updateSlidesClasses();
 
