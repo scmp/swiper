@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 5, 2018
+ * Released on: September 6, 2018
  */
 
 (function (global, factory) {
@@ -2645,7 +2645,11 @@
     touches.startY = startY;
     data.touchStartTime = Utils.now();
     swiper.allowClick = true;
-    swiper.updateSize();
+
+    if (!params.performance || !params.performance.skipUpdateSizeOnTouchStart) {
+      swiper.updateSize();
+    }
+
     swiper.swipeDirection = undefined;
     if (params.threshold > 0) { data.allowThresholdMove = false; }
     if (e.type !== 'touchstart') {
@@ -3892,8 +3896,15 @@
       if (params.breakpoints) {
         swiper.setBreakpoint();
       }
-      swiper.updateSize();
-      swiper.updateSlides();
+
+      if (!params.performance || !params.performance.skipUpateSizeOnUpdate) {
+        swiper.updateSize();
+      }
+
+      if (!params.performance || !params.performance.skipUpateSlidesOnUpdate) {
+        swiper.updateSlides();
+      }
+
       swiper.updateProgress();
       swiper.updateSlidesClasses();
 
