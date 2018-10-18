@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: September 6, 2018
+ * Released on: October 18, 2018
  */
 
 import { $, addClass, removeClass, hasClass, toggleClass, attr, removeAttr, data, transform, transition, on, off, trigger, transitionEnd, outerWidth, outerHeight, offset, css, each, html, text, is, index, eq, append, prepend, next, nextAll, prev, prevAll, parent, parents, closest, find, children, remove, add, styles } from 'dom7/dist/dom7.modular';
@@ -4091,8 +4091,15 @@ const Pagination = {
       $el.find(`.${params.progressbarFillClass}`).transform(`translate3d(0,0,0) scaleX(${scaleX}) scaleY(${scaleY})`).transition(swiper.params.speed);
     }
     if (params.type === 'custom' && params.renderCustom) {
-      $el.html(params.renderCustom(swiper, current + 1, total));
-      swiper.emit('paginationRender', swiper, $el[0]);
+      // hotfix pagination always re-render every time even enough change
+      // the $el[0] should be dangerous, need to find a better solution
+      // also this one fix renderCustom, other pagination type still got same issue
+      const newHtml = params.renderCustom(swiper, current + 1, total);
+      if ($el[0].innerHTML !== newHtml) {
+        $el.html(newHtml);
+      }
+      // $el.html(params.renderCustom(swiper, current + 1, total));
+      // swiper.emit('paginationRender', swiper, $el[0]);
     } else {
       swiper.emit('paginationUpdate', swiper, $el[0]);
     }
