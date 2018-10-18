@@ -132,7 +132,7 @@ const Pagination = {
         $el.html(newHtml);
       }
       // $el.html(params.renderCustom(swiper, current + 1, total));
-      // swiper.emit('paginationRender', swiper, $el[0]);
+      swiper.emit('paginationRender', swiper, $el[0]);
     } else {
       swiper.emit('paginationUpdate', swiper, $el[0]);
     }
